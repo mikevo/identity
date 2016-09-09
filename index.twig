@@ -4,16 +4,22 @@
 	html5up.net | @n33co
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+{% if parent_theme_url %}
+	{% set this_theme_url = parent_theme_url ~ '/identity' %}
+{% else %}
+	{% set this_theme_url = theme_url %}
+{% endif %}
 <html>
 	<head>
-		<title>Identity by HTML5 UP</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<title>{% if current_page.title %}{{ current_page.title }} | {% endif %}{{ site_title }}</title>
+		<meta name="description" content="{{ current_page.description }}">
+		<!--[if lte IE 8]><script src="{{ this_theme_url }}/assets/js/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="{{ this_theme_url }}/assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="{{ this_theme_url }}/assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="{{ this_theme_url }}/assets/css/ie8.css" /><![endif]-->
+		<noscript><link rel="stylesheet" href="{{ this_theme_url }}/assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-loading">
 
@@ -23,9 +29,9 @@
 				<!-- Main -->
 					<section id="main">
 						<header>
-							<span class="avatar"><img src="images/avatar.jpg" alt="" /></span>
-							<h1>Jane Doe</h1>
-							<p>Senior Psychonautics Engineer</p>
+							<span class="avatar"><img src="{% if meta.image %}{{ config.image_prefix }}/{{ meta.image }}{% else %}{{ this_theme_url }}/images/avatar.jpg{% endif %}" alt="{{ current_page.title }}" /></span>
+							<h1>{{ current_page.title }}</h1>
+							<p>{{ current_page.description }}</p>
 						</header>
 						<!--
 						<hr />
@@ -66,9 +72,9 @@
 						-->
 						<footer>
 							<ul class="icons">
-								<li><a href="#" class="fa-twitter">Twitter</a></li>
-								<li><a href="#" class="fa-instagram">Instagram</a></li>
-								<li><a href="#" class="fa-facebook">Facebook</a></li>
+								{% for url,name in meta.links %}
+									<li><a href="{{ url }}" class="fa-{{ name }}">{{ name }}</a></li>
+								{% endfor %}
 							</ul>
 						</footer>
 					</section>
@@ -76,7 +82,7 @@
 				<!-- Footer -->
 					<footer id="footer">
 						<ul class="copyright">
-							<li>&copy; Jane Doe</li>
+							<li>&copy; {{ site_title }}</li>
 							<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 						</ul>
 					</footer>
@@ -84,7 +90,7 @@
 			</div>
 
 		<!-- Scripts -->
-			<!--[if lte IE 8]><script src="assets/js/respond.min.js"></script><![endif]-->
+			<!--[if lte IE 8]><script src="{{ this_theme_url }}/assets/js/respond.min.js"></script><![endif]-->
 			<script>
 				if ('addEventListener' in window) {
 					window.addEventListener('load', function() { document.body.className = document.body.className.replace(/\bis-loading\b/, ''); });
